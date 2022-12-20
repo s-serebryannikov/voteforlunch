@@ -8,20 +8,20 @@ import java.util.Objects;
 public abstract class AbstractBaseEntity{
     public static final int START_SEQ = 100_000;
 
-    protected Long id;
+    protected Integer id;
 
     public AbstractBaseEntity() {
     }
 
-    public AbstractBaseEntity(Long id) {
+    public AbstractBaseEntity(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

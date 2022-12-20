@@ -1,20 +1,13 @@
 package ru.serebryannikov.voteforlunch.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
 public class User extends AbstractNamedEntity {
-
 
     private String email;
 
@@ -27,16 +20,16 @@ public class User extends AbstractNamedEntity {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, Boolean enabled, Set<Role> roles) {
+    public User(Integer id, String name, String email, String password, Boolean enabled, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
-        this.roles = roles;
+        setRoles(roles);
     }
 
-    public User(Long id, String name, String email, String password, Boolean enabled, Role role, Role... roles) {
-        this(id, name, email, password, true, EnumSet.of(role, roles));
+    public User(Integer id, String name, String email, String password, Boolean enabled, Role role, Role... roles) {
+        this(id, name, email, password, true, Arrays.asList(roles));
     }
 
     public String getEmail() {
@@ -49,6 +42,10 @@ public class User extends AbstractNamedEntity {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     public String getPassword() {
